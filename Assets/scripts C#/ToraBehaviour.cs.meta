@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: fcaca7dda010b9445b4385eb381d4b0b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - sparkleEffectPrefab: {fileID: 437906173240075711, guid: 70dd7d0968110744f89554f3feb9b45c, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
