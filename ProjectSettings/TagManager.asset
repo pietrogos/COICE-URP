@@ -8,6 +8,9 @@ TagManager:
   - FogueiraCollider
   - Combustivel
   - Spawn
+  - machado
+  - arvore
+  - ChoppedTree
   layers:
   - Default
   - TransparentFX
