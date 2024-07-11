@@ -30,8 +30,14 @@ public class RestoreTreeState : MonoBehaviour
             trees[i].widthScale = PlayerPrefs.GetFloat("Tree" + i + "WidthScale");
             trees[i].heightScale = PlayerPrefs.GetFloat("Tree" + i + "HeightScale");
             trees[i].prototypeIndex = PlayerPrefs.GetInt("Tree" + i + "PrototypeIndex");
+            trees[i].color = Color.white;
+            trees[i].lightmapColor = Color.white;
         }
 
         terrain.terrainData.treeInstances = trees;
+
+        // Force Unity to update the tree colliders
+        terrain.terrainData.RefreshPrototypes();
+        terrain.Flush();
     }
 }
