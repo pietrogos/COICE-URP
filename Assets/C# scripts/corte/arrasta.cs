@@ -2,79 +2,101 @@ using UnityEngine;
 
 public class DragObject : MonoBehaviour
 {
-    private Camera mainCamera;
-    private bool isDragging = false;
-    private Vector3 offset;
-    private float zCoord;
-    private Transform draggedObject;
+    public float force = 600;
+    public float damping = 6;
+    public float dragDistance = 2.0f; // Distance from the player during dragging
+    public LayerMask draggableLayer;  // Layer mask for draggable objects
+
+    private Transform jointTrans;
+    private Transform playerCamera;
     private Rigidbody draggedRigidbody;
-    public LayerMask draggableLayer; // Layer mask for draggable objects
+    private bool isDragging = false;
+    private float dragDepth;
+    private Vector3 offset;
 
     void Start()
     {
-        mainCamera = Camera.main;
+        playerCamera = Camera.main.transform; // Assuming the main camera is the player's camera
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            OnMouseDown();
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            OnMouseUp();
-        }
-        if (isDragging && draggedObject != null)
-        {
-            draggedObject.position = GetMouseWorldPos() + offset;
-        }
-    }
-
-    void OnMouseDown()
-    {
-        if (InteractionManager.Instance.IsDragging())
-        {
-            return; // Prevent dragging if another drag operation is ongoing
-        }
-
-        Ray ray = mainCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, draggableLayer))
-        {
-            draggedObject = hit.transform;
-            draggedRigidbody = draggedObject.GetComponent<Rigidbody>();
-            if (draggedRigidbody != null)
+            if (isDragging)
             {
-                // Stop the object's movement
-                draggedRigidbody.velocity = Vector3.zero;
-                draggedRigidbody.angularVelocity = Vector3.zero;
-                // Disable gravity and set kinematic to true to prevent physics interactions while dragging
-                draggedRigidbody.isKinematic = true;
+                HandleInputEnd();
             }
-            zCoord = mainCamera.WorldToScreenPoint(draggedObject.position).z;
-            offset = draggedObject.position - GetMouseWorldPos();
-            isDragging = true;
-            InteractionManager.Instance.SetDragging(true);
+            else
+            {
+                HandleInputBegin();
+            }
         }
-    }
 
-    void OnMouseUp()
-    {
-        isDragging = false;
-        InteractionManager.Instance.SetDragging(false);
-        if (draggedRigidbody != null)
+        if (isDragging && jointTrans != null)
         {
-            // Re-enable gravity and set kinematic to false to allow physics interactions after dragging
-            draggedRigidbody.isKinematic = false;
+            HandleInput();
         }
-        draggedObject = null;
-        draggedRigidbody = null;
     }
 
-    Vector3 GetMouseWorldPos()
+    public void HandleInputBegin()
     {
-        Vector3 mousePoint = Input.mousePosition;
-        mousePoint.z = zCoord;
-        return mainCamera.ScreenToWorldPoint(mousePoint);
+        Ray ray = new Ray(playerCamera.position, playerCamera.forward);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, draggableLayer))
+        {
+            dragDepth = Vector3.Distance(playerCamera.position, hit.point);
+            jointTrans = AttachJoint(hit.rigidbody, hit.point);
+            isDragging = true;
+        }
+    }
+
+    public void HandleInput()
+    {
+        if (jointTrans == null)
+            return;
+
+        Vector3 worldPos = playerCamera.position + playerCamera.forward * dragDistance;
+        jointTrans.position = worldPos;
+    }
+
+    public void HandleInputEnd()
+    {
+        if (jointTrans != null)
+        {
+            Destroy(jointTrans.gameObject);
+            jointTrans = null;
+            isDragging = false;
+        }
+    }
+
+    Transform AttachJoint(Rigidbody rb, Vector3 attachmentPosition)
+    {
+        GameObject go = new GameObject("Attachment Point");
+        go.hideFlags = HideFlags.HideInHierarchy;
+        go.transform.position = attachmentPosition;
+
+        var newRb = go.AddComponent<Rigidbody>();
+        newRb.isKinematic = true;
+
+        var joint = go.AddComponent<ConfigurableJoint>();
+        joint.connectedBody = rb;
+        joint.configuredInWorldSpace = true;
+        joint.xDrive = NewJointDrive(force, damping);
+        joint.yDrive = NewJointDrive(force, damping);
+        joint.zDrive = NewJointDrive(force, damping);
+        joint.slerpDrive = NewJointDrive(force, damping);
+        joint.rotationDriveMode = RotationDriveMode.Slerp;
+
+        return go.transform;
+    }
+
+    private JointDrive NewJointDrive(float force, float damping)
+    {
+        JointDrive drive = new JointDrive();
+        drive.positionSpring = force;
+        drive.positionDamper = damping;
+        drive.maximumForce = Mathf.Infinity;
+        return drive;
     }
 }
