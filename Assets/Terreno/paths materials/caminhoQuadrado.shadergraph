@@ -512,8 +512,8 @@
     "m_ShaderOutputName": "Frequency",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": 2.0,
-        "y": 2.0
+        "x": 10.0,
+        "y": 10.0
     },
     "m_DefaultValue": {
         "x": 0.0,
@@ -793,9 +793,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -340.8000183105469,
-            "y": 136.79998779296876,
-            "width": 208.0,
+            "x": -342.3999938964844,
+            "y": 136.8000030517578,
+            "width": 208.00001525878907,
             "height": 349.60003662109377
         }
     },
