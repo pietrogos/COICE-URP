@@ -1,6 +1,6 @@
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine;
 using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
@@ -10,15 +10,11 @@ public class PauseMenu : MonoBehaviour
     public GameObject controlsUI;
     public Slider generalVolumeSlider;
     public Slider musicVolumeSlider;
-    public GameObject player; // Reference to the player object
     public GameObject crosshair; // Reference to the crosshair object
-
     private bool isPaused = false;
-    private PlayerMovement playerController; // Assuming this is your player control script
 
     void Start()
     {
-        playerController = player.GetComponent<PlayerMovement>();
         generalVolumeSlider.onValueChanged.AddListener(SetGeneralVolume);
         musicVolumeSlider.onValueChanged.AddListener(SetMusicVolume);
 
@@ -26,8 +22,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         audioOptionsUI.SetActive(false);
         controlsUI.SetActive(false);
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //HideCursor();
     }
 
     void Update()
@@ -35,13 +30,16 @@ public class PauseMenu : MonoBehaviour
         if ((Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame) ||
             (Gamepad.current != null && Gamepad.current.startButton.wasPressedThisFrame))
         {
-            if (isPaused)
+            if (!MainMenuManager.IsMainMenuActive)
             {
-                Resume();
-            }
-            else
-            {
-                Pause();
+                if (isPaused)
+                {
+                    Resume();
+                }
+                else
+                {
+                    Pause();
+                }
             }
         }
     }
@@ -53,10 +51,8 @@ public class PauseMenu : MonoBehaviour
         controlsUI.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
-        playerController.enabled = true;
         crosshair.SetActive(true);
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        HideCursor();
     }
 
     void Pause()
@@ -66,10 +62,8 @@ public class PauseMenu : MonoBehaviour
         controlsUI.SetActive(false);
         Time.timeScale = 0f;
         isPaused = true;
-        playerController.enabled = false;
         crosshair.SetActive(false);
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        ShowCursor();
     }
 
     public void Restart()
@@ -110,5 +104,19 @@ public class PauseMenu : MonoBehaviour
     void SetMusicVolume(float volume)
     {
         // Implement the logic to set the music volume
+    }
+
+    private void ShowCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        Debug.Log("Cursor Shown: " + Cursor.visible);
+    }
+
+    private void HideCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Debug.Log("Cursor Hidden: " + Cursor.visible);
     }
 }
