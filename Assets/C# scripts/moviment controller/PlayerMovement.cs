@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController characterController;
 
     private bool isMoving;
+    private bool canMove = true; // Add this line
 
     private InputAction moveAction;
     private InputAction lookAction;
@@ -70,6 +71,8 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleMovement()
     {
+        if (!canMove) return; 
+
         float speedMultiplier = 1;
         float verticalSpeed = moveInput.y * walkSpeed * speedMultiplier;
         float horizontalSpeed = moveInput.x * walkSpeed * speedMultiplier;
@@ -89,11 +92,11 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleGravityAndJumping()
     {
-        if(characterController.isGrounded)
+        if (characterController.isGrounded)
         {
             currentMovement.y = -0.5f;
 
-            if(jumpAction.triggered)
+            if (jumpAction.triggered)
             {
                 currentMovement.y = jumpForce;
             }
@@ -106,6 +109,8 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleRotation()
     {
+        if (!canMove) return; // Add this line
+
         float mouseXRotation = lookInput.x * mouseSensitivity;
         transform.Rotate(0, mouseXRotation, 0);
 
@@ -114,11 +119,20 @@ public class PlayerMovement : MonoBehaviour
         mainCamera.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
     }
 
-
     // Update is called once per frame
     void Update()
     {
         HandleMovement();
         HandleRotation();
+    }
+
+    public void EnableMovement()
+    {
+        canMove = true;
+    }
+
+    public void DisableMovement()
+    {
+        canMove = false;
     }
 }

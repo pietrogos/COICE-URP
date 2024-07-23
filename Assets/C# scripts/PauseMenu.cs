@@ -11,6 +11,7 @@ public class PauseMenu : MonoBehaviour
     public Slider generalVolumeSlider;
     public Slider musicVolumeSlider;
     public GameObject crosshair; // Reference to the crosshair object
+    public PlayerMovement playerMovement; // Reference to the PlayerMovement script
     private bool isPaused = false;
 
     void Start()
@@ -22,7 +23,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         audioOptionsUI.SetActive(false);
         controlsUI.SetActive(false);
-        //HideCursor();
+        HideCursor();
     }
 
     void Update()
@@ -52,6 +53,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         isPaused = false;
         crosshair.SetActive(true);
+        playerMovement.EnableMovement(); // Reativar o controle da câmera
         HideCursor();
     }
 
@@ -63,6 +65,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0f;
         isPaused = true;
         crosshair.SetActive(false);
+        playerMovement.DisableMovement(); // Desativar o controle da câmera
         ShowCursor();
     }
 
