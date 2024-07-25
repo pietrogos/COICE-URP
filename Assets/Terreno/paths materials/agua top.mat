@@ -37,25 +37,25 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Caustic_scale: 1.85
+    - _Caustic_scale: 0.73
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Refraction_Speed: 0.05
     - _caustic_ammount: 11.78
     - _caustic_move: -0.2
     - _caustic_speed: 0.65
-    - _foam_ammount: 1.01
+    - _foam_ammount: 0.49
     - _foam_cuttoff: 0.95
     - _foam_scale: 6.16
     - _foam_speed: 0.5
-    - _profundidade: 4.67
+    - _profundidade: 4.29
     - _refraction_scale: 0.21
     - _refraction_strengh: 0.74
     m_Colors:
     - _Agua_profunda: {r: 0.11320752, g: 0.081594855, b: 0.08660556, a: 0.9529412}
     - _Agua_rasa: {r: 0.12264148, g: 0.115884624, b: 0.10574935, a: 0.5019608}
-    - _Caustic_Color: {r: 0.0030476295, g: 0.0043386784, b: 0.011374957, a: 0}
-    - _foam_color: {r: 0.13207549, g: 0.1288359, b: 0.1288359, a: 1}
+    - _Caustic_Color: {r: 0.0061231703, g: 0.0061231703, b: 0.01886791, a: 0}
+    - _foam_color: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
     - _refraction_speed: {r: -0.05, g: 1.88, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &2126195432175962872

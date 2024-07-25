@@ -11,8 +11,15 @@ public class cortecolisaoterreno2 : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            ChopTree();
+            StartCoroutine(ChopTreeWithDelay());
         }
+    }
+
+    private IEnumerator ChopTreeWithDelay()
+    {
+        yield return new WaitForSeconds(1.0f);
+        ChopTree();
+        Debug.Log("ChopTree start");
     }
 
     private void ChopTree()
