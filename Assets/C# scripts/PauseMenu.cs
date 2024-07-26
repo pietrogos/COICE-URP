@@ -12,6 +12,7 @@ public class PauseMenu : MonoBehaviour
     public Slider musicVolumeSlider;
     public GameObject crosshair; // Reference to the crosshair object
     public PlayerMovement playerMovement; // Reference to the PlayerMovement script
+    public AudioSource musicSource;
     private bool isPaused = false;
 
     void Start()
@@ -99,14 +100,17 @@ public class PauseMenu : MonoBehaviour
         Application.Quit();
     }
 
-    void SetGeneralVolume(float volume)
+    public void SetGeneralVolume(float volume)
     {
-        // Implement the logic to set the general volume
+        AudioListener.volume = volume;
     }
 
-    void SetMusicVolume(float volume)
+    public void SetMusicVolume(float volume)
     {
-        // Implement the logic to set the music volume
+        if (musicSource != null)
+        {
+            musicSource.volume = volume;
+        }
     }
 
     private void ShowCursor()
