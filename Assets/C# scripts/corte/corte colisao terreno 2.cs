@@ -6,6 +6,8 @@ public class cortecolisaoterreno2 : MonoBehaviour
 {
     public GameObject choppedTreePrefab;
     public float detectionRadius = 1.0f;
+    public float cooldownTime = 5.0f; // Cooldown period in seconds
+    private bool isCooldown = false; // Flag to check if cooldown is active
 
     private void Update()
     {
@@ -17,9 +19,11 @@ public class cortecolisaoterreno2 : MonoBehaviour
 
     private IEnumerator ChopTreeWithDelay()
     {
+        isCooldown = true; // Start the cooldown
         yield return new WaitForSeconds(1.0f);
         ChopTree();
-        Debug.Log("ChopTree start");
+        yield return new WaitForSeconds(cooldownTime); // Wait for cooldown period
+        isCooldown = false; // End the cooldown
     }
 
     private void ChopTree()
