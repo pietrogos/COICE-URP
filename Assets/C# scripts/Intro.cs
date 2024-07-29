@@ -5,7 +5,7 @@ using UnityEngine;
 public class Intro : MonoBehaviour
 {
     // Start is called before the first frame update
-    private float temporizador = 5.5f; // Cooldown period in seconds
+    private float temporizador = 6.5f; // Cooldown period in seconds
     private bool isCooldown = false; // Flag to check if cooldown is active
     public GameObject objectToEnable; // Reference to the GameObject to enable
 
