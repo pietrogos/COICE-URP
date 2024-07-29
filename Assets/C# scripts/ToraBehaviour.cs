@@ -8,7 +8,6 @@ public class ToraBehaviour : MonoBehaviour
     private bool isInsideFire = false;
     private bool isInsideSpawn = false;
     private FireController fireController;
-    private WoodSpawner woodSpawner;
     private AudioSource audioSource;
     public GameObject sparkleEffectPrefab;
     
@@ -16,7 +15,6 @@ public class ToraBehaviour : MonoBehaviour
     private void Start() 
     {
         fireController = FindObjectOfType<FireController>();
-        woodSpawner = FindObjectOfType<WoodSpawner>();
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -29,7 +27,6 @@ public class ToraBehaviour : MonoBehaviour
 
         if (lifespan <= 0)
         {
-            woodSpawner.DecreaseToraCount();
             Destroy(this.gameObject);
         }
     }
