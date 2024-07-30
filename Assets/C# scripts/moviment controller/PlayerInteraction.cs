@@ -97,9 +97,22 @@ public class PlayerInteraction : MonoBehaviour
             {
                 // Disable kinematic before applying force
                 rb.isKinematic = false;
+                rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+
+                // Position the object slightly away from the player to avoid immediate collision
+                Vector3 throwPosition = Camera.main.transform.position + Camera.main.transform.forward * 2.5f;
+                heldObject.transform.position = throwPosition;
+                heldObject.transform.rotation = Camera.main.transform.rotation;
 
                 // Apply the force in the forward direction of the camera
-                rb.AddForce(Camera.main.transform.forward * throwStrength, ForceMode.Impulse);
+                Vector3 forceDirection = Camera.main.transform.forward;
+                forceDirection.y = Mathf.Max(forceDirection.y, 0.1f); // Ensure the y-component of the force is not negative
+                rb.AddForce(forceDirection * throwStrength, ForceMode.Impulse);
+
+                // Debugging information
+                Debug.Log($"Object thrown with force: {throwStrength} in direction: {Camera.main.transform.forward}");
+                Debug.Log($"Throw position: {throwPosition}");
+                Debug.Log($"Rigidbody velocity after throw: {rb.velocity}");
             }
 
             // Reset held object variables

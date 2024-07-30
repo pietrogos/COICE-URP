@@ -595,7 +595,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4486130924169130766, guid: e7b6d00d7e03b3c4b8760cf9bca2e038, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5024471866127214151, guid: e7b6d00d7e03b3c4b8760cf9bca2e038, type: 3}
+      propertyPath: woodPrefab
+      value: 
+      objectReference: {fileID: 5868613942902157717, guid: cc0db24f279fe6b43b7e320b61d88b12, type: 3}
+    - target: {fileID: 5024471866127214151, guid: e7b6d00d7e03b3c4b8760cf9bca2e038, type: 3}
+      propertyPath: interactableLayerMask.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 7230401419038259609, guid: e7b6d00d7e03b3c4b8760cf9bca2e038, type: 3}
       propertyPath: m_RootOrder
@@ -755,6 +763,67 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1841985324
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1891891590853915790, guid: 7981c159bcab10f4f9e918304bd58810, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1891891590853915790, guid: 7981c159bcab10f4f9e918304bd58810, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 53.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 1891891590853915790, guid: 7981c159bcab10f4f9e918304bd58810, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 1891891590853915790, guid: 7981c159bcab10f4f9e918304bd58810, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 35.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1891891590853915790, guid: 7981c159bcab10f4f9e918304bd58810, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.82166547
+      objectReference: {fileID: 0}
+    - target: {fileID: 1891891590853915790, guid: 7981c159bcab10f4f9e918304bd58810, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1891891590853915790, guid: 7981c159bcab10f4f9e918304bd58810, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.56997
+      objectReference: {fileID: 0}
+    - target: {fileID: 1891891590853915790, guid: 7981c159bcab10f4f9e918304bd58810, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1891891590853915790, guid: 7981c159bcab10f4f9e918304bd58810, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1891891590853915790, guid: 7981c159bcab10f4f9e918304bd58810, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -69.496
+      objectReference: {fileID: 0}
+    - target: {fileID: 1891891590853915790, guid: 7981c159bcab10f4f9e918304bd58810, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3790161384827028509, guid: 7981c159bcab10f4f9e918304bd58810, type: 3}
+      propertyPath: m_Name
+      value: pilha de madeira
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7981c159bcab10f4f9e918304bd58810, type: 3}
 --- !u!1001 &1742658962571519389
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -766,6 +835,10 @@ PrefabInstance:
     - target: {fileID: 8150973980161743, guid: 9b8f6998b124f6741be818dbea6443b2, type: 3}
       propertyPath: m_Name
       value: camera intro
+      objectReference: {fileID: 0}
+    - target: {fileID: 8150973980161743, guid: 9b8f6998b124f6741be818dbea6443b2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 732458114740928467, guid: 9b8f6998b124f6741be818dbea6443b2, type: 3}
       propertyPath: m_LocalPosition.x
