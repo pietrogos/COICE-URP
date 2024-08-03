@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using System.Collections;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] private GameObject crosshair;
 
     [Header("Prefabs")]
-    [SerializeField] private GameObject woodPrefab; // Add this line to reference the wood prefab
+    [SerializeField] private GameObject woodPrefab;
 
     private InputAction interactAction;
     private InputAction throwAction;
@@ -58,7 +59,14 @@ public class PlayerInteraction : MonoBehaviour
         Debug.Log("Interact action triggered");
         if (currentTarget && !isHoldingObject)
         {
-            PickUpObject(currentTarget);
+            if (currentTarget.name == "PileOfWood")
+            {
+                PickUpObject(currentTarget);
+            }
+            else
+            {
+                NonGrabbableAction(currentTarget);
+            }
         }
     }
 
@@ -78,11 +86,52 @@ public class PlayerInteraction : MonoBehaviour
             // Handle other objects if necessary
             heldObject = obj;
             heldObject.transform.parent = Camera.main.transform; // Attach to camera
-            heldObject.transform.localPosition = new Vector3(0, 0, 1); // Place in front
+            heldObject.transform.localPosition = new Vector3(0, 0, 5); // Place in front
             heldObject.GetComponent<Rigidbody>().isKinematic = true; // Disable physics
             isHoldingObject = true;
         }
     }
+
+    private void NonGrabbableAction(GameObject target)
+    {
+        Debug.Log($"Interacting with non-grabbable object: {target.name}");
+
+        if (target.name == "Play" || target.name == "Pause" || target.name == "FastForward")
+        {
+            DJButtonAction(target);
+        }
+    }
+
+    private void DJButtonAction(GameObject button)
+    {
+        StartCoroutine(PressAnimation(button));
+        switch (button.name)
+        {
+            case "Play":
+                MusicManager.Instance.PlayMusic();
+                break;
+            case "Pause":
+                MusicManager.Instance.PauseMusic();
+                break;
+            case "FastForward":
+                MusicManager.Instance.FastForwardMusic(100); //100 seconds
+                break;
+        }
+    }
+
+    private IEnumerator PressAnimation(GameObject button)
+    {
+        Vector3 initialPosition = button.transform.position;
+        Vector3 pressedPosition = initialPosition + new Vector3(0, -0.05f, 0); // Move down
+
+        // Move button down
+        button.transform.position = pressedPosition;
+        yield return new WaitForSeconds(0.5f);
+
+        // Move button back up
+        button.transform.position = initialPosition;
+    }
+
 
     private void ThrowHeldObject()
     {
@@ -121,11 +170,6 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
-    private void NonGrabbableAction(GameObject target)
-    {
-        Debug.Log($"Interacting with non-grabbable object: {target.name}");
-    }
-
     private void FixedUpdate()
     {
         CheckForInteractableObjects();
@@ -149,9 +193,17 @@ public class PlayerInteraction : MonoBehaviour
                 }
                 else
                 {
-                    NonGrabbableAction(target);
-                    interactPrompt.text = "";
-                    currentTarget = null;
+                    if (target.name == "Play" || target.name == "Pause" || target.name == "FastForward")
+                    {
+                        currentTarget = target;
+                        interactPrompt.text = "Press E to Interact";
+                    }
+                    else
+                    {
+                        NonGrabbableAction(target);
+                        interactPrompt.text = "";
+                        currentTarget = null;
+                    }
                 }
             }
         }
