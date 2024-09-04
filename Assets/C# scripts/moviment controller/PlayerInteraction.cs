@@ -7,7 +7,6 @@ public class PlayerInteraction : MonoBehaviour
 {
     [Header("Interaction Settings")]
     [SerializeField] private float interactionDistance = 100.0f;
-    [SerializeField] private float throwStrength = 10.0f;
     [SerializeField] private LayerMask interactableLayerMask;
 
     [Header("Input Actions")]
@@ -19,6 +18,11 @@ public class PlayerInteraction : MonoBehaviour
 
     [Header("Prefabs")]
     [SerializeField] private GameObject woodPrefab;
+
+    [Header("Throw Settings")]
+    [SerializeField] private float throwStrength = 10.0f;
+    [SerializeField] private float throwUpwardAngle = 20f;
+    [SerializeField] private float minThrowVelocity = 2f;
 
     private InputAction interactAction;
     private InputAction throwAction;
@@ -76,7 +80,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             // Spawn a new wood object
             GameObject woodObject = Instantiate(woodPrefab, Camera.main.transform);
-            woodObject.transform.localPosition = new Vector3(0, 0, 1); // Place in front
+            woodObject.transform.localPosition = new Vector3(0, 0, 3); // Place in front
             woodObject.GetComponent<Rigidbody>().isKinematic = true; // Disable physics
             heldObject = woodObject;
             isHoldingObject = true;
@@ -132,39 +136,22 @@ public class PlayerInteraction : MonoBehaviour
         button.transform.position = initialPosition;
     }
 
-
     private void ThrowHeldObject()
     {
         if (isHoldingObject && heldObject != null)
         {
-            // Detach the held object from the camera
+            // Detach the object from the camera
             heldObject.transform.parent = null;
 
-            // Ensure the Rigidbody is not null and then apply the force
-            Rigidbody rb = heldObject.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                // Disable kinematic before applying force
-                rb.isKinematic = false;
-                rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+            // Enable physics again
+            Rigidbody heldObjectRigidbody = heldObject.GetComponent<Rigidbody>();
+            heldObjectRigidbody.isKinematic = false;
 
-                // Position the object slightly away from the player to avoid immediate collision
-                Vector3 throwPosition = Camera.main.transform.position + Camera.main.transform.forward * 2.5f;
-                heldObject.transform.position = throwPosition;
-                heldObject.transform.rotation = Camera.main.transform.rotation;
+            // Apply force to throw the object in the direction the player is facing
+            Vector3 throwDirection = Camera.main.transform.forward;
+            heldObjectRigidbody.AddForce(throwDirection * throwStrength, ForceMode.VelocityChange);
 
-                // Apply the force in the forward direction of the camera
-                Vector3 forceDirection = Camera.main.transform.forward;
-                forceDirection.y = Mathf.Max(forceDirection.y, 0.1f); // Ensure the y-component of the force is not negative
-                rb.AddForce(forceDirection * throwStrength, ForceMode.Impulse);
-
-                // Debugging information
-                Debug.Log($"Object thrown with force: {throwStrength} in direction: {Camera.main.transform.forward}");
-                Debug.Log($"Throw position: {throwPosition}");
-                Debug.Log($"Rigidbody velocity after throw: {rb.velocity}");
-            }
-
-            // Reset held object variables
+            // Clear the held object references
             heldObject = null;
             isHoldingObject = false;
         }

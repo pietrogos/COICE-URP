@@ -33,6 +33,7 @@ public class ToraBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Colidiu " + other.gameObject.name);
         if (other.CompareTag("Spawn"))
         {
             isInsideSpawn = true;
