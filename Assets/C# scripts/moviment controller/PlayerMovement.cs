@@ -19,6 +19,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("Input Actions")]
     [SerializeField] private InputActionAsset playerControls;
 
+    [Header("Interaction")]
+    [SerializeField] private PlayerInteraction playerInteraction;
+
     private float verticalRotation;
     private Vector3 currentMovement = Vector3.zero;
     private CharacterController characterController;
@@ -53,6 +56,11 @@ public class PlayerMovement : MonoBehaviour
 
         lookAction.performed += context => lookInput = context.ReadValue<Vector2>();
         lookAction.canceled += context => lookInput = Vector2.zero;
+
+        if (playerInteraction == null)
+        {
+            playerInteraction = GetComponent<PlayerInteraction>();
+        }
     }
 
     private void OnEnable()

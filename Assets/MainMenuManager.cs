@@ -7,12 +7,23 @@ public class MainMenuManager : MonoBehaviour
     public GameObject player; // Reference to the player object
     public GameObject mainMenu;
 
-    void Start()
+    void Awake()
     {
         // Initialize the main menu state
         IsMainMenuActive = true;
         SetCursorVisible(true);
+        Cursor.visible = true;
+        Screen.lockCursor = false;
         Debug.Log("Main Menu Active: " + IsMainMenuActive);
+    }
+
+    void Update()
+    {
+        // Check if the player presses "Enter" and the main menu is active
+        if (IsMainMenuActive && Input.GetKeyDown(KeyCode.Return))
+        {
+            StartGame();
+        }
     }
 
     public void StartGame()
